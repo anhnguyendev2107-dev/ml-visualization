@@ -454,15 +454,26 @@ export default function UnetVisualization() {
   const diagramWrapRef = useRef<HTMLDivElement | null>(null);
 
   // zoom + pan
-  const [zoom, setZoom] = useState(0.75);
+  const INITIAL_ZOOM = 0.75;
+  const [zoom, setZoom] = useState(INITIAL_ZOOM);
   const [pan, setPan] = useState({ x: 0, y: 0 });
   const dragRef = useRef<{ startX: number; startY: number; baseX: number; baseY: number } | null>(
     null,
   );
-  const resetView = useCallback(() => {
-    setZoom(0.75);
-    setPan({ x: 0, y: 0 });
+  const centerView = useCallback((targetZoom = INITIAL_ZOOM) => {
+    const wrap = diagramWrapRef.current;
+    if (!wrap) {
+      setZoom(targetZoom);
+      setPan({ x: 0, y: 0 });
+      return;
+    }
+    setZoom(targetZoom);
+    setPan({
+      x: (wrap.clientWidth * (1 - targetZoom)) / 2,
+      y: (wrap.clientHeight * (1 - targetZoom)) / 2,
+    });
   }, []);
+  const resetView = useCallback(() => centerView(INITIAL_ZOOM), [centerView]);
   const zoomBy = useCallback((factor: number) => {
     setZoom((z) => Math.min(4, Math.max(0.25, z * factor)));
   }, []);
@@ -472,9 +483,8 @@ export default function UnetVisualization() {
     setCursor(-1);
     setPlaying(false);
     setHighlightId(null);
-    setZoom(0.75);
-    setPan({ x: 0, y: 0 });
-  }, [spec]);
+    centerView(INITIAL_ZOOM);
+  }, [spec, centerView]);
 
   // wheel zoom (centred on cursor) — non-passive so we can preventDefault
   useEffect(() => {

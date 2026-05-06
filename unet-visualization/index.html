@@ -1,0 +1,44 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>ML Visualization Hub</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <div class="page-bg" aria-hidden="true"></div>
+  <header class="topbar">
+    <div>
+      <h1>ML Visualization Hub</h1>
+      <p>Repo da duoc viet lai de scale theo module: them visualization moi ma khong dung vao code cu.</p>
+    </div>
+    <a class="docs-link" href="./README.md" target="_blank" rel="noreferrer">How to add new visualization</a>
+  </header>
+
+  <main class="layout">
+    <aside class="catalog-panel">
+      <div class="catalog-head">
+        <h2>Catalog</h2>
+        <span id="vizCount" class="count-pill">0 demos</span>
+      </div>
+      <div id="catalog" class="catalog"></div>
+    </aside>
+
+    <section class="viewer-panel">
+      <div class="viewer-head">
+        <div>
+          <h2 id="viewerTitle">Choose a visualization</h2>
+          <p id="viewerDesc">Select a module on the left to load it in the embedded viewer.</p>
+        </div>
+        <a id="openStandalone" class="open-link" href="#" target="_blank" rel="noreferrer">Open standalone</a>
+      </div>
+      <div class="viewer-wrap">
+        <iframe id="viewerFrame" title="Visualization frame" loading="lazy"></iframe>
+      </div>
+    </section>
+  </main>
+
+  <script src="app.js"></script>
+</body>
+</html>
